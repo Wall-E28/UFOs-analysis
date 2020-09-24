@@ -22,3 +22,26 @@ function buildTable(data) {
         }); 
     });
 }
+
+// build a filter that detects a user clicking a button
+function handleClick() {
+    // grab the datetime value from the filter
+    let date = d3.select("#datetime").property("value");
+
+    // create a default data variable
+    let filteredData = tableData;
+    
+    // use if statement to pull rows that match filter value
+    if (date) {
+        filteredData = filterData.filter(row => row.datetime === date);
+    };
+    
+    // call the buildTable function using filtered data
+    buildTable(filteredData);
+}
+
+// Attach an event to listne for the form button
+d3.selectAll("#filter-btn").on("click", handleClick);
+
+// Build the table when the page loads
+buildTable(tableData);
