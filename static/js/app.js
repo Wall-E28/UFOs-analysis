@@ -5,43 +5,47 @@ const tableData = data;
 var tbody = d3.slect("tbody");
 
 
-// build a table using the data 
 function buildTable(data) {
-    
-    // clear existing data
-    tbody.html("");
-    
-    // loop there each object in data and append a row 
-    data.forEach((dataRow) => {
-        let row = tbody.append("tr");
-        
-        // loop there each row and append a value to each cell
-        Object.values(dataRow).forEach((val) => {
-            let cell = tbody.append("td");
-            cell.text(val);
-        }); 
-    });
+  // First, clear out any existing data
+  tbody.html("");
+
+  // Next, loop through each object in the data
+  // and append a row and cells for each value in the row
+  data.forEach((dataRow) => {
+    // Append a row to the table body
+    let row = tbody.append("tr");
+
+    // Loop through each field in the dataRow and add
+    // each value as a table cell (td)
+    Object.values(dataRow).forEach((val) => {
+      let cell = row.append("td");
+      cell.text(val);
+      }
+    );
+  });
 }
 
-// build a filter that detects a user clicking a button
 function handleClick() {
-    // grab the datetime value from the filter
+    // Grab the datetime value from the filter
     let date = d3.select("#datetime").property("value");
-
-    // create a default data variable
     let filteredData = tableData;
-    
-    // use if statement to pull rows that match filter value
+  
+     // Check to see if a date was entered and filter the
+    // data using that date.
     if (date) {
-        filteredData = filterData.filter(row => row.datetime === date);
-    };
-    
-    // call the buildTable function using filtered data
+      // Apply `filter` to the table data to only keep the
+      // rows where the `datetime` value matches the filter value
+      filteredData = filteredData.filter(row => row.datetime === date);
+    }
+  
+     // Rebuild the table using the filtered data
+    // @NOTE: If no date was entered, then filteredData will
+    // just be the original tableData.
     buildTable(filteredData);
-}
-
-// Attach an event to listne for the form button
-d3.selectAll("#filter-btn").on("click", handleClick);
-
-// Build the table when the page loads
-buildTable(tableData);
+  }
+  
+  // Attach an event to listen for the form button
+  d3.selectAll("#filter-btn").on("click", handleClick);
+  
+  // Build the table when the page loads
+  buildTable(tableData);
