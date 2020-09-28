@@ -65,7 +65,7 @@ function updateFilters() {
     // matches the filter values
     filteredData.forEach((filters) => {
       if (filters) {
-        filteredData = filteredData.filter(row => row === filters);
+        filteredData = filteredData.filter(row => row.filterId === filters[filterID]);
       };
     })
   
